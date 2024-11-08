@@ -1,90 +1,43 @@
-name: "CodeQL Analysis"
+name: CodeQL Analysis
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-  schedule:
-    - cron: '15 5 * * 3'  # Example: Run weekly on Wednesdays at 5:15 AM UTC
 
 jobs:
   analyze:
-    name: Analyze C# Code
     runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ['csharp']  # Language matrix for C#
 
     steps:
-      # Step 1: Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v4  # Checkout the repository
-        with:
-          fetch-depth: 0  # Ensure full repository history is fetched
+        uses: actions/checkout@v4
 
-      # Step 2: Setup .NET SDK
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'  # Setup .NET SDK version
+          dotnet-version: '8.0.x'
 
-      # Step 3: Restore NuGet packages
       - name: Restore NuGet packages
-        run: |
-          dotnet restore  # Restore all NuGet dependencies
+        run: dotnet restore
 
-      # Step 4: Clean the project (optional)
-      - name: Clean the project
-        run: dotnet clean  # Clean any previous build artifacts
-
-      # Step 5: Build and publish the project
       - name: Build and publish the project
         run: |
-          dotnet build --configuration Debug --no-restore  # Build the project
-          dotnet publish --configuration Debug --output ./output  # Publish the build output to a known location
+          dotnet restore
+          dotnet build --configuration Release --no-restore
+          dotnet publish --configuration Release --output ./output
 
-      # Step 6: Verify build output directory
       - name: Verify build output
         run: |
           echo "Listing build output directory"
-          pwd  # Print current working directory
-          ls $GITHUB_WORKSPACE  # List contents of the root directory
-          if [ -d "$GITHUB_WORKSPACE/bin" ]; then
-              ls "$GITHUB_WORKSPACE/bin"
-          else
-              echo "bin directory does not exist"
-          fi
-          if [ -d "$GITHUB_WORKSPACE/bin/Debug" ]; then
-              ls "$GITHUB_WORKSPACE/bin/Debug"
-          else
-              echo "bin/Debug directory does not exist"
-          fi
-          if [ -d "$GITHUB_WORKSPACE/bin/Debug/net8.0" ]; then
-              ls "$GITHUB_WORKSPACE/bin/Debug/net8.0"
-          else
-              echo "bin/Debug/net8.0 directory does not exist"
-          fi
+          ls -R $GITHUB_WORKSPACE
 
-      # Step 7: Initialize CodeQL for analysis
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}  # Define language from matrix (C#)
-          debug: true  # Enable verbose debugging to track down issues
+          languages: csharp
+          source-root: ./path/to/your/source
 
-      # Step 8: Perform CodeQL Analysis
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
-
-      # Step 9: Upload results as an artifact (optional)
-      - name: Upload CodeQL database
-        uses: actions/upload-artifact@v3
-        with:
-          name: codeql-database
-          path: /home/runner/work/_temp/codeql_databases  # Path to the generated CodeQL database
