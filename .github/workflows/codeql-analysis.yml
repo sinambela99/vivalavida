@@ -44,7 +44,7 @@ jobs:
     - name: Verify build output
       run: |
         echo "Listing build output directory"
-        dir $(Build.SourcesDirectory)/bin/Debug/net8.0/  # List files in the build output directory
+        dir $GITHUB_WORKSPACE/bin/Debug/net8.0/  # List files in the build output directory
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
