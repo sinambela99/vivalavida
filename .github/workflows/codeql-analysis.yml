@@ -7,9 +7,9 @@ permissions:
 
 on:
   push:
-    branches: [ master ]  # Trigger on push to the master branch
+    branches: [ main ]  # Trigger on push to the master branch
   pull_request:
-    branches: [ master ]  # Trigger on pull request to the master branch
+    branches: [ main ]  # Trigger on pull request to the master branch
   schedule:
     - cron: '15 23 * * 1'  # Run every Monday at 23:15 UTC
 
