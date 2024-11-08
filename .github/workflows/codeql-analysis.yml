@@ -36,7 +36,9 @@ jobs:
         run: dotnet restore  # Restore .NET dependencies
 
       - name: Build the project
-        run: dotnet build --configuration Debug --no-restore  # Build the project with Debug configuration
+        run: |
+          dotnet build --configuration Debug --no-restore  # Build the project with Debug configuration
+          dotnet publish --configuration Debug --output ./output  # Explicitly publish the output to a known directory
 
       - name: Verify build output
         run: |
