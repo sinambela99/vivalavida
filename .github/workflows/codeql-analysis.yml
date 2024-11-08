@@ -41,16 +41,29 @@ jobs:
     - name: Build the code
       run: dotnet build --configuration Debug --no-restore  # Build with Debug configuration, skipping restore
  
+ 
     - name: Verify build output
       run: |
         echo "Listing build output directory"
         pwd  # Print the current working directory
-        ls $GITHUB_WORKSPACE  # List contents of the root directory
-        ls $GITHUB_WORKSPACE/bin  # List contents of the bin directory
-        ls $GITHUB_WORKSPACE/bin/Debug  # List contents of the Debug directory
-        ls $GITHUB_WORKSPACE/bin/Debug/net8.0/  # List contents of the net8.0 directory
+        ls $env:GITHUB_WORKSPACE  # List contents of the root directory
+        if (Test-Path "$env:GITHUB_WORKSPACE/bin") { 
+            ls "$env:GITHUB_WORKSPACE/bin" 
+        } else {
+            echo "bin directory does not exist"
+        }
+        if (Test-Path "$env:GITHUB_WORKSPACE/bin/Debug") { 
+            ls "$env:GITHUB_WORKSPACE/bin/Debug"
+        } else {
+            echo "bin/Debug directory does not exist"
+        }
+        if (Test-Path "$env:GITHUB_WORKSPACE/bin/Debug/net8.0") {
+            ls "$env:GITHUB_WORKSPACE/bin/Debug/net8.0"
+        } else {
+            echo "bin/Debug/net8.0 directory does not exist"
+        }
     
-
+    
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
