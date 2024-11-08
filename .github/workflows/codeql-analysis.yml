@@ -44,6 +44,9 @@ jobs:
     - name: Verify build output
       run: |
         echo "Listing build output directory"
+        dir $GITHUB_WORKSPACE  # Check the contents of the root directory
+        dir $GITHUB_WORKSPACE/bin  # Check if the bin directory exists
+        dir $GITHUB_WORKSPACE/bin/Debug  # Check if the Debug directory exists
         dir $GITHUB_WORKSPACE/bin/Debug/net8.0/  # List files in the build output directory
 
     - name: Initialize CodeQL
