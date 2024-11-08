@@ -43,21 +43,21 @@ jobs:
           echo "Listing build output directory"
           pwd  # Print the current working directory
           ls $GITHUB_WORKSPACE  # List contents of the root directory
-          if (Test-Path "$env:GITHUB_WORKSPACE/bin") { 
-              ls "$env:GITHUB_WORKSPACE/bin" 
-          } else {
+          if [ -d "$GITHUB_WORKSPACE/bin" ]; then
+              ls "$GITHUB_WORKSPACE/bin" 
+          else
               echo "bin directory does not exist"
-          }
-          if (Test-Path "$env:GITHUB_WORKSPACE/bin/Debug") { 
-              ls "$env:GITHUB_WORKSPACE/bin/Debug"
-          } else {
+          fi
+          if [ -d "$GITHUB_WORKSPACE/bin/Debug" ]; then
+              ls "$GITHUB_WORKSPACE/bin/Debug"
+          else
               echo "bin/Debug directory does not exist"
-          }
-          if (Test-Path "$env:GITHUB_WORKSPACE/bin/Debug/net8.0") {
-              ls "$env:GITHUB_WORKSPACE/bin/Debug/net8.0"
-          } else {
+          fi
+          if [ -d "$GITHUB_WORKSPACE/bin/Debug/net8.0" ]; then
+              ls "$GITHUB_WORKSPACE/bin/Debug/net8.0"
+          else
               echo "bin/Debug/net8.0 directory does not exist"
-          }
+          fi
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
