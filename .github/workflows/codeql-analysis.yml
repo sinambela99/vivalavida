@@ -1,54 +1,58 @@
-name: CodeQL Analysis
+name: "CodeQL Analysis"
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
 
 on:
   push:
-    branches: [ "main" ]  # Run on push to main branch
+    branches: [ master ]  # Trigger on push to the master branch
   pull_request:
-    branches: [ "main" ]  # Run on pull request to main branch
+    branches: [ master ]  # Trigger on pull request to the master branch
   schedule:
-    - cron: '0 0 * * 0'  # Run every week
+    - cron: '15 23 * * 1'  # Run every Monday at 23:15 UTC
 
 jobs:
   analyze:
     name: Analyze CodeQL
-    runs-on: ubuntu-latest  # Use Linux-based runner
-
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
+    runs-on: windows-2022  # Use Windows-based runner
 
     strategy:
       fail-fast: false
       matrix:
-        language: ['C#']  # Explicitly set language to C#
+        language: ['csharp']  # Define language as C#
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Set up .NET SDK
-      uses: actions/setup-dotnet@v2
+      uses: actions/checkout@v4
       with:
-        dotnet-version: '8.0'
+        fetch-depth: 0  # Ensure the full repository history is fetched
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          6.0.x  # Specify supported .NET versions
+          8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore  # Restore .NET dependencies
 
     - name: Build the code
-      run: dotnet build --configuration Release
+      run: dotnet build --configuration Debug --no-restore  # Build with Debug configuration, skipping restore
 
     - name: Verify build output
       run: |
         echo "Listing build files"
-        ls -R $(pwd)
+        dir $(Build.SourcesDirectory)  # List files to verify build success
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
-        languages: ${{ matrix.language }}  # Use matrix.language to explicitly define the language
+        languages: ${{ matrix.language }}  # Use matrix language (C#)
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
       with:
         language: ${{ matrix.language }}  # Explicitly use language from the matrix
