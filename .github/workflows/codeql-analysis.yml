@@ -9,19 +9,24 @@ on:
 jobs:
   analyze:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [csharp]  # Define the matrix with C# as the language
+        # If you want to analyze multiple languages, you can add more here:
+        # language: [csharp, python, javascript]
 
     steps:
       # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Setup .NET SDK
+      # Setup .NET SDK (or other necessary SDKs for different languages)
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
-      # Restore NuGet packages
+      # Restore NuGet packages for C#
       - name: Restore NuGet packages
         run: dotnet restore
 
@@ -31,16 +36,11 @@ jobs:
           dotnet build --configuration Release --no-restore
           dotnet publish --configuration Release --output ./output
 
-      # List build output to verify
-      - name: List build output
-        run: |
-          ls -R ./output  # Ensure that the code is built and published
-
-      # Initialize CodeQL
+      # Initialize CodeQL for the specific language
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: csharp
+          languages: ${{ matrix.language }}  # Use matrix.language for dynamic language selection
           source-root: ./  # Adjust according to your project structure
 
       # Perform CodeQL Analysis
