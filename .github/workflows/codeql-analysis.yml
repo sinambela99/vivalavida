@@ -44,7 +44,7 @@ jobs:
     - name: Verify build output
       run: |
         echo "Listing build files"
-        dir $(Build.SourcesDirectory)  # List files to verify build success
+        dir $PWD  # List files to verify build success
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
