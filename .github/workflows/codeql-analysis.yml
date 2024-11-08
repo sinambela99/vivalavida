@@ -65,10 +65,11 @@ jobs:
               echo "bin/Debug/net8.0 directory does not exist"
           fi
 
-      - name: Initialize CodeQL
+      - name: Initialize CodeQL (Using Nightly Build)
         uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}
+          tools: https://github.com/dsp-testing/codeql-cli-nightlies/releases/download/codeql-bundle-20240307/codeql-bundle-linux64.tar.gz
+          languages: ${{ matrix.language }}  # Define languages to be analyzed
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
