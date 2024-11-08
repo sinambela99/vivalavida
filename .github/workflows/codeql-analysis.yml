@@ -24,13 +24,12 @@ jobs:
 
       - name: Build and publish the project
         run: |
-          dotnet restore
           dotnet build --configuration Release --no-restore
           dotnet publish --configuration Release --output ./output
 
-      - name: List repository files
+      - name: List build output
         run: |
-          ls -R $GITHUB_WORKSPACE  # Verify directory structure
+          ls -R ./output  # Ensure that the code is built and published
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
