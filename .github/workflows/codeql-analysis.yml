@@ -1,22 +1,20 @@
 name: "CodeQL Analysis"
 
-permissions:
-  actions: read
-  contents: read
-  security-events: write
-
 on:
   push:
-    branches: [ main ]  # Trigger on push to the main branch
+    branches: [main]
   pull_request:
-    branches: [ main ]  # Trigger on pull request to the main branch
+    branches: [main]
   schedule:
-    - cron: '15 23 * * 1'  # Run every Monday at 23:15 UTC
+    - cron: '15 5 * * 3'  # Run every Wednesday at 05:15 UTC
 
 jobs:
   analyze:
-    name: Analyze CodeQL
-    runs-on: windows-2022  # Use Windows-based runner
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
 
     strategy:
       fail-fast: false
@@ -24,48 +22,47 @@ jobs:
         language: ['csharp']  # Define language as C#
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Ensure the full repository history is fetched
+      - name: Checkout repository
+        uses: actions/checkout@v4  # Checkout the repository
+        with:
+          fetch-depth: 0  # Ensure the full repository history is fetched
 
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          8.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4  # Setup .NET for the repository
+        with:
+          dotnet-version: '8.0.x'  # Define the .NET version to use
 
-    - name: Restore dependencies
-      run: dotnet restore  # Restore .NET dependencies
+      - name: Restore dependencies
+        run: dotnet restore  # Restore .NET dependencies
 
-    - name: Build the code
-      run: dotnet build --configuration Debug --no-restore  # Build with Debug configuration, skipping restore
- 
-    - name: Verify build output
-      run: |
-        echo "Listing build output directory"
-        pwd  # Print the current working directory
-        ls $env:GITHUB_WORKSPACE  # List contents of the root directory
-        if (Test-Path "$env:GITHUB_WORKSPACE/bin") { 
-            ls "$env:GITHUB_WORKSPACE/bin" 
-        } else {
-            echo "bin directory does not exist"
-        }
-        if (Test-Path "$env:GITHUB_WORKSPACE/bin/Debug") { 
-            ls "$env:GITHUB_WORKSPACE/bin/Debug"
-        } else {
-            echo "bin/Debug directory does not exist"
-        }
-        if (Test-Path "$env:GITHUB_WORKSPACE/bin/Debug/net8.0") {
-            ls "$env:GITHUB_WORKSPACE/bin/Debug/net8.0"
-        } else {
-            echo "bin/Debug/net8.0 directory does not exist"
-        }
+      - name: Build the project
+        run: dotnet build --configuration Debug --no-restore  # Build the project with Debug configuration
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}  # Use matrix language (C#)
+      - name: Verify build output
+        run: |
+          echo "Listing build output directory"
+          pwd  # Print the current working directory
+          ls $GITHUB_WORKSPACE  # List contents of the root directory
+          if (Test-Path "$env:GITHUB_WORKSPACE/bin") { 
+              ls "$env:GITHUB_WORKSPACE/bin" 
+          } else {
+              echo "bin directory does not exist"
+          }
+          if (Test-Path "$env:GITHUB_WORKSPACE/bin/Debug") { 
+              ls "$env:GITHUB_WORKSPACE/bin/Debug"
+          } else {
+              echo "bin/Debug directory does not exist"
+          }
+          if (Test-Path "$env:GITHUB_WORKSPACE/bin/Debug/net8.0") {
+              ls "$env:GITHUB_WORKSPACE/bin/Debug/net8.0"
+          } else {
+              echo "bin/Debug/net8.0 directory does not exist"
+          }
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}  # Use matrix language (C#)
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
