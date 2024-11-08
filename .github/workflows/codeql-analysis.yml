@@ -2,16 +2,16 @@ name: CodeQL Analysis
 
 on:
   push:
-    branches: [ "main" ]  # Jalankan pada push ke branch utama
+    branches: [ "main" ]  # Run on push to main branch
   pull_request:
-    branches: [ "main" ]  # Jalankan pada pull request ke branch utama
+    branches: [ "main" ]  # Run on pull request to main branch
   schedule:
-    - cron: '0 0 * * 0'  # Jalankan setiap minggu
+    - cron: '0 0 * * 0'  # Run every week
 
 jobs:
   analyze:
     name: Analyze CodeQL
-    runs-on: ubuntu-latest  # Gunakan runner berbasis Linux
+    runs-on: ubuntu-latest  # Use Linux-based runner
 
     permissions:
       actions: read
@@ -21,39 +21,32 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'csharp' ]  # Tentukan untuk bahasa C#
+        language: [ 'csharp' ]  # Explicitly set language to C#
 
     steps:
-    # Langkah 1: Checkout kode dari repositori
     - name: Checkout repository
-      uses: actions/checkout@v2  # Checkout kode dari repositori GitHub
+      uses: actions/checkout@v2
 
-    # Langkah 2: Set up .NET SDK (gunakan versi 8.0)
     - name: Set up .NET SDK
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '8.0'  # Tentukan versi .NET SDK yang digunakan
+        dotnet-version: '8.0'
 
-    # Langkah 3: Restore dependensi .NET
     - name: Restore dependencies
-      run: dotnet restore  # Restore dependensi .NET
+      run: dotnet restore
 
-    # Langkah 4: Build kode .NET
     - name: Build the code
-      run: dotnet build --configuration Release  # Build proyek .NET
+      run: dotnet build --configuration Release
 
-    # Langkah 5: Verifikasi hasil build
     - name: Verify build output
       run: |
-        echo "Menampilkan file hasil build"
-        ls -R $(pwd)  # Menampilkan file-file di dalam direktori kerja
+        echo "Listing build files"
+        ls -R $(pwd)
 
-    # Langkah 6: Inisialisasi CodeQL
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        languages: csharp  # Tentukan bahasa yang akan dianalisis, di sini C#
+        languages: csharp
 
-    # Langkah 7: Lakukan analisis CodeQL
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2  # Lakukan analisis CodeQL
+      uses: github/codeql-action/analyze@v2
