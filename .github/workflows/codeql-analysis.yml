@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'csharp' ]  # Explicitly set language to C#
+        language: ['C#']  # Explicitly set language to C#
 
     steps:
     - name: Checkout repository
@@ -46,7 +46,9 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        languages: csharp
+        languages: ${{ matrix.language }}  # Use matrix.language to explicitly define the language
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+      with:
+        language: ${{ matrix.language }}  # Explicitly use language from the matrix
