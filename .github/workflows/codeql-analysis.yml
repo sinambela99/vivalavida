@@ -18,6 +18,11 @@ jobs:
       contents: read
       security-events: write
 
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'csharp' ]  # Tentukan untuk bahasa C#
+
     steps:
     # Langkah 1: Checkout kode dari repositori
     - name: Checkout repository
@@ -52,11 +57,3 @@ jobs:
     # Langkah 7: Lakukan analisis CodeQL
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2  # Lakukan analisis CodeQL
-
-    # Langkah 8: Laporan analisis CodeQL
-    - name: Upload CodeQL results
-      if: always()  # Upload hasil analisis meskipun terjadi kegagalan
-      uses: github/codeql-action/upload-results@v2
-      with:
-        upload-database: true
-        wait-for-processing: true
