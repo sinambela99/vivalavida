@@ -41,7 +41,6 @@ jobs:
     - name: Build the code
       run: dotnet build --configuration Debug --no-restore  # Build with Debug configuration, skipping restore
  
- 
     - name: Verify build output
       run: |
         echo "Listing build output directory"
@@ -62,8 +61,7 @@ jobs:
         } else {
             echo "bin/Debug/net8.0 directory does not exist"
         }
-    
-    
+
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
