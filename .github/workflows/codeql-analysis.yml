@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '15 5 * * 3'  # Run every Wednesday at 05:15 UTC
+    - cron: '15 5 * * 3'
 
 jobs:
   analyze:
@@ -32,13 +32,15 @@ jobs:
         with:
           dotnet-version: '8.0.x'  # Define the .NET version to use
 
-      - name: Restore dependencies
-        run: dotnet restore  # Restore .NET dependencies
+      - name: Clean and Restore dependencies
+        run: |
+          dotnet clean  # Clean any previous build artifacts
+          dotnet restore  # Restore .NET dependencies
 
       - name: Build the project
         run: |
           dotnet build --configuration Debug --no-restore  # Build the project with Debug configuration
-          dotnet publish --configuration Debug --output ./output  # Explicitly publish the output to a known directory
+          dotnet publish --configuration Debug --output ./output  # Publish to a known location
 
       - name: Verify build output
         run: |
@@ -46,7 +48,7 @@ jobs:
           pwd  # Print the current working directory
           ls $GITHUB_WORKSPACE  # List contents of the root directory
           if [ -d "$GITHUB_WORKSPACE/bin" ]; then
-              ls "$GITHUB_WORKSPACE/bin" 
+              ls "$GITHUB_WORKSPACE/bin"
           else
               echo "bin directory does not exist"
           fi
@@ -64,7 +66,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}  # Use matrix language (C#)
+          languages: ${{ matrix.language }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
