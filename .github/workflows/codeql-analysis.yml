@@ -28,16 +28,15 @@ jobs:
           dotnet build --configuration Release --no-restore
           dotnet publish --configuration Release --output ./output
 
-      - name: Verify build output
+      - name: List repository files
         run: |
-          echo "Listing build output directory"
-          ls -R $GITHUB_WORKSPACE
+          ls -R $GITHUB_WORKSPACE  # Verify directory structure
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
-          source-root: ./path/to/your/source
+          source-root: ./  # Adjust according to your project structure
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
