@@ -11,31 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Setup .NET SDK
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
+      # Restore NuGet packages
       - name: Restore NuGet packages
         run: dotnet restore
 
+      # Build and publish the project
       - name: Build and publish the project
         run: |
           dotnet build --configuration Release --no-restore
           dotnet publish --configuration Release --output ./output
 
+      # List build output to verify
       - name: List build output
         run: |
           ls -R ./output  # Ensure that the code is built and published
 
+      # Initialize CodeQL
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
           source-root: ./  # Adjust according to your project structure
 
+      # Perform CodeQL Analysis
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
