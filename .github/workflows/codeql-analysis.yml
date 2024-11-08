@@ -7,9 +7,9 @@ permissions:
 
 on:
   push:
-    branches: [ main ]  # Trigger on push to the master branch
+    branches: [ main ]  # Trigger on push to the main branch
   pull_request:
-    branches: [ main ]  # Trigger on pull request to the master branch
+    branches: [ main ]  # Trigger on pull request to the main branch
   schedule:
     - cron: '15 23 * * 1'  # Run every Monday at 23:15 UTC
 
@@ -43,8 +43,8 @@ jobs:
 
     - name: Verify build output
       run: |
-        echo "Listing build files"
-        dir $PWD  # List files to verify build success
+        echo "Listing build output directory"
+        dir $(Build.SourcesDirectory)/bin/Debug/net8.0/  # List files in the build output directory
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
