@@ -1,0 +1,47 @@
+name: CodeQL Analysis
+
+on:
+  push:
+    branches: [ "main" ]  # Jalankan pada push ke branch utama
+  pull_request:
+    branches: [ "main" ]  # Jalankan pada pull request ke branch utama
+  schedule:
+    - cron: '0 0 * * 0'  # Jalankan setiap minggu
+
+jobs:
+  analyze:
+    name: Analyze CodeQL
+    runs-on: ubuntu-latest  # Gunakan runner berbasis Linux
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'csharp' ]  # Tentukan untuk bahasa C#
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2  # Checkout kode dari repositori GitHub
+
+    - name: Set up .NET SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '8.0'  # Tentukan versi .NET SDK yang digunakan, sesuaikan dengan versi yang kamu pakai
+
+    - name: Restore dependencies
+      run: dotnet restore  # Restore dependensi .NET
+
+    - name: Build the code
+      run: dotnet build --configuration Release  # Build proyek .NET
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}  # Tentukan bahasa yang akan dianalisis, di sini C#
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2  # Lakukan analisis CodeQL
