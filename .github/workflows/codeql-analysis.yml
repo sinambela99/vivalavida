@@ -32,10 +32,12 @@ jobs:
         with:
           dotnet-version: '8.0.x'  # Define the .NET version to use
 
-      - name: Clean and Restore dependencies
+      - name: Restore NuGet packages
         run: |
-          dotnet clean  # Clean any previous build artifacts
-          dotnet restore  # Restore .NET dependencies
+          dotnet restore  # Ensure that all NuGet dependencies are restored
+
+      - name: Clean the project
+        run: dotnet clean  # Clean any previous build artifacts
 
       - name: Build the project
         run: |
