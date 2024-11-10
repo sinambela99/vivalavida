@@ -28,18 +28,19 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore
 
-      # Build and publish the project
-      - name: Build and publish the project
-        run: |
-          dotnet build --configuration Release --no-restore
-          dotnet publish --configuration Release --output ./output
+      # Build the project and ensure CodeQL can detect the build process
+      - name: Build the project with CodeQL extraction
+        run: dotnet build --configuration Release --no-restore
+        env:
+          CODEQL_EXTRACTOR_CSHARP_BUILD_COMMAND: "dotnet build --configuration Release"
 
       # Initialize CodeQL for the specific language
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
+          paths: 'HelloWorldApp'  # Adjust this path to match your project structure if necessary
 
       # Perform CodeQL Analysis
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
