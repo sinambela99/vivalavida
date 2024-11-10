@@ -21,42 +21,40 @@ jobs:
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.0'  # You can specify 8.0.0 or any version you require
+          dotnet-version: '7.0.100'  # Use a valid .NET version
 
-      # Step 3: Install dependencies or build the project
+      # Step 3: Restore dependencies and build the project
       - name: Restore dependencies
         run: dotnet restore HelloWorldApp.sln
 
       - name: Build the solution
         run: dotnet build HelloWorldApp.sln --configuration Release
 
-      # Step 4: Initialize CodeQL Analysis (This step is required for CodeQL to work)
+      # Step 4: Initialize CodeQL Analysis
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: 'csharp'  # Specify the language used in the repo (C# in this case)
-          # Optionally, specify the location of the CodeQL database
-          # db-location: /path/to/custom/codeql/database
+          languages: 'csharp'
 
-      # Step 5: Run the CodeQL Analysis (Analyze the codebase for vulnerabilities)
+      # Step 5: Run CodeQL Analysis
       - name: Run CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          output: ../results          # Output directory for the results
-          upload: always              # Always upload results, even on failure
-          cleanup-level: brutal       # Clean up resources aggressively after analysis
-          add-snippets: false         # Avoid adding snippets
-          skip-queries: false         # Run all queries, don't skip any
-          checkout_path: /home/runner/work/vivalavida/vivalavida  # Path to the repository
-          upload-database: true       # Upload the database for processing
-          wait-for-processing: true   # Wait for the results to be processed
+          output: ../results
+          upload: always
+          cleanup-level: brutal
+          add-snippets: false
+          skip-queries: false
+          checkout_path: /home/runner/work/vivalavida/vivalavida
+          upload-database: true
+          wait-for-processing: true
 
         env:
-          CODEQL_ACTION_VERSION: 3.27.1  # Version of the CodeQL action you are using
+          CODEQL_ACTION_VERSION: 3.27.1
           CODEQL_EXTRACTOR_CSHARP_ROOT: /opt/hostedtoolcache/CodeQL/2.19.3/x64/codeql/csharp
           DOTNET_ROOT: /usr/share/dotnet
 
-      # Step 6: Optionally upload the CodeQL analysis results to a security dashboard or artifact
+      # Step 6: Upload CodeQL Results (Optional)
       - name: Upload CodeQL Analysis Results
         uses: actions/upload-artifact@v3
         with:
