@@ -11,9 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        language: [csharp]  # Define the matrix with C# as the language
-        # If you want to analyze multiple languages, you can add more here:
-        # language: [csharp, python, javascript]
+        language: [csharp]
 
     steps:
       # Checkout the repository
@@ -40,8 +38,8 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}  # Use matrix.language for dynamic language selection
-          source-root: ./  # Adjust according to your project structure
+          languages: ${{ matrix.language }}
+          source-root: ./  # Ensures all files, including the ones in specific folders, are analyzed
 
       # Perform CodeQL Analysis
       - name: Perform CodeQL Analysis

@@ -135,3 +135,4 @@ C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\refint\HelloWorldApp.dll
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.pdb
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.genruntimeconfig.cache
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\ref\HelloWorldApp.dll
+C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.sourcelink.json
