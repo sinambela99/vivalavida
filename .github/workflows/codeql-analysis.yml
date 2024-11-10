@@ -14,7 +14,7 @@ jobs:
         language: [csharp]
 
     steps:
-      # Enable debug logging to capture more detailed logs
+      # Enable debug logging
       - name: Enable debug logging
         run: echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
 
@@ -28,11 +28,15 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      # Verify solution file exists
+      - name: Verify solution file exists
+        run: ls -la HelloWorldApp.sln
+
       # Restore NuGet packages for C#
       - name: Restore NuGet packages
         run: dotnet restore HelloWorldApp.sln
 
-      # Clean and build the project to ensure a fresh build that CodeQL can detect
+      # Clean and build the project with CodeQL extraction
       - name: Clean and build the project with CodeQL extraction
         run: |
           dotnet clean HelloWorldApp.sln
@@ -45,7 +49,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
-          paths: 'HelloWorldApp'  # Adjust this if your project structure differs
+          paths: 'HelloWorldApp'
 
       # Perform CodeQL Analysis
       - name: Perform CodeQL Analysis
