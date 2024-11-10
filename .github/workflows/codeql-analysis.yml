@@ -33,7 +33,7 @@ jobs:
 
       # Restore NuGet packages for C#
       - name: Restore NuGet packages
-        run: dotnet restore HelloWorldApp.csproj  # Corrected path
+        run: dotnet restore HelloWorldApp.csproj
 
       # Clean and build the solution
       - name: Clean and build the solution
@@ -43,14 +43,16 @@ jobs:
 
       # Publish the project to ensure dependencies are included
       - name: Publish the project
-        run: dotnet publish HelloWorldApp.csproj --configuration Release --output ./output  # Corrected path
+        run: |
+          dotnet publish HelloWorldApp.csproj --configuration Release --output ./output
+          ls -la ./output  # Verify output directory contents
 
-      # Initialize CodeQL for C#
+      # Initialize CodeQL with tracing
       - name: Initialize CodeQL with tracing
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
-          source-root: './'  # Correct source root as the .csproj is at the root
+          source-root: './'
           trace: true  # Enables tracing logs for debugging
 
       # Verify CodeQL database contents
