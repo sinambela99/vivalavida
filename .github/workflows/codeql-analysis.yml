@@ -11,7 +11,7 @@ on:
 jobs:
   codeql-analysis:
     runs-on: ubuntu-latest
-    
+
     steps:
       # Step 1: Checkout code from repository
       - name: Checkout code
@@ -31,7 +31,13 @@ jobs:
       - name: Build the solution
         run: dotnet build HelloWorldApp.sln --configuration Release
 
-      # Step 5: Run CodeQL Analysis
+      # Step 5: Initialize CodeQL
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+
+      # Step 6: Run CodeQL Analysis
       - name: Run CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
@@ -44,10 +50,6 @@ jobs:
           upload-database: true
           wait-for-processing: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          matrix: |
-            {
-              "language": "csharp"
-            }
         env:
           DOTNET_ROOT: /usr/share/dotnet
           CODEQL_ACTION_FEATURE_MULTI_LANGUAGE: false
