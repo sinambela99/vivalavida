@@ -11,30 +11,25 @@ on:
 jobs:
   codeql-analysis:
     runs-on: ubuntu-latest
-
+    
     steps:
-      # Step 1: Checkout the code from the repository
+      # Step 1: Checkout code from repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up .NET SDK (Ensure the correct version of .NET is installed)
+      # Step 2: Set up .NET SDK (Fallback to version 7.0.x)
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.100'  # Use a valid .NET version
+          dotnet-version: '7.0.*'  # Use the latest available 7.x SDK
 
-      # Step 3: Restore dependencies and build the project
+      # Step 3: Restore dependencies
       - name: Restore dependencies
         run: dotnet restore HelloWorldApp.sln
 
+      # Step 4: Build the solution
       - name: Build the solution
         run: dotnet build HelloWorldApp.sln --configuration Release
-
-      # Step 4: Initialize CodeQL Analysis
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: 'csharp'
 
       # Step 5: Run CodeQL Analysis
       - name: Run CodeQL Analysis
@@ -48,15 +43,41 @@ jobs:
           checkout_path: /home/runner/work/vivalavida/vivalavida
           upload-database: true
           wait-for-processing: true
-
+          token: ${{ secrets.GITHUB_TOKEN }}
+          matrix: |
+            {
+              "language": "csharp"
+            }
         env:
-          CODEQL_ACTION_VERSION: 3.27.1
-          CODEQL_EXTRACTOR_CSHARP_ROOT: /opt/hostedtoolcache/CodeQL/2.19.3/x64/codeql/csharp
           DOTNET_ROOT: /usr/share/dotnet
-
-      # Step 6: Upload CodeQL Results (Optional)
-      - name: Upload CodeQL Analysis Results
-        uses: actions/upload-artifact@v3
-        with:
-          name: codeql-results
-          path: ../results
+          CODEQL_ACTION_FEATURE_MULTI_LANGUAGE: false
+          CODEQL_ACTION_FEATURE_SANDWICH: false
+          CODEQL_ACTION_FEATURE_SARIF_COMBINE: true
+          CODEQL_ACTION_FEATURE_WILL_UPLOAD: true
+          CODEQL_ACTION_VERSION: 3.27.1
+          JOB_RUN_UUID: ${{ github.run_id }}
+          CODEQL_ACTION_INIT_HAS_RUN: true
+          CODEQL_ACTION_ANALYSIS_KEY: .github/workflows/codeql-analysis.yml:analyze
+          CODEQL_WORKFLOW_STARTED_AT: ${{ github.event.head_commit.timestamp }}
+          CODEQL_RAM: 14567
+          CODEQL_THREADS: 4
+          CODEQL_EXTRACTOR_PYTHON_EXTRACT_STDLIB: true
+          CODEQL_SCRATCH_DIR: /home/runner/work/_temp/codeql_databases/working
+          CODEQL_VERBOSITY: warnings
+          CODEQL_DIST: /opt/hostedtoolcache/CodeQL/2.19.3/x64/codeql
+          CODEQL_PLATFORM: linux64
+          CODEQL_PLATFORM_DLL_EXTENSION: .so
+          CODEQL_JAVA_HOME: /opt/hostedtoolcache/CodeQL/2.19.3/x64/codeql/tools/linux64/java
+          CODEQL_EXTRACTOR_CSHARP_ROOT: /opt/hostedtoolcache/CodeQL/2.19.3/x64/codeql/csharp
+          CODEQL_EXTRACTOR_CSHARP_WIP_DATABASE: /home/runner/work/_temp/codeql_databases/csharp
+          CODEQL_EXTRACTOR_CSHARP_DIAGNOSTIC_DIR: /home/runner/work/_temp/codeql_databases/csharp/diagnostic/extractors/csharp
+          CODEQL_EXTRACTOR_CSHARP_LOG_DIR: /home/runner/work/_temp/codeql_databases/csharp/log
+          CODEQL_EXTRACTOR_CSHARP_SCRATCH_DIR: /home/runner/work/_temp/codeql_databases/csharp/working
+          CODEQL_EXTRACTOR_CSHARP_TRAP_DIR: /home/runner/work/_temp/codeql_databases/csharp/trap/csharp
+          CODEQL_EXTRACTOR_CSHARP_SOURCE_ARCHIVE_DIR: /home/runner/work/_temp/codeql_databases/csharp/src
+          DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+          CODEQL_EXTRACTOR_CSHARP_THREADS: 4
+          CODEQL_EXTRACTOR_CSHARP_RAM: 14567
+          CODEQL_TRACER_LOG: /home/runner/work/_temp/codeql_databases/log/build-tracer.log
+          CODEQL_TRACER_DIAGNOSTICS_DIR: /home/runner/work/_temp/codeql_databases/diagnostic/tracer
+          CODEQL_TRACER_LANGUAGES: csharp
