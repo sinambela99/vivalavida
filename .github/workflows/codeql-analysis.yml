@@ -30,7 +30,9 @@ jobs:
 
       # Verify solution file exists
       - name: Verify solution file exists
-        run: ls -la HelloWorldApp.sln
+        run: |
+          ls -la
+          cat HelloWorldApp.sln
 
       # Restore NuGet packages for C#
       - name: Restore NuGet packages
@@ -44,12 +46,20 @@ jobs:
         env:
           CODEQL_EXTRACTOR_CSHARP_BUILD_COMMAND: "dotnet build HelloWorldApp.sln --configuration Release"
 
+      # Publish the project to ensure all dependencies are included
+      - name: Publish the project
+        run: dotnet publish HelloWorldApp.sln --configuration Release --output ./output
+
       # Initialize CodeQL for the specific language
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
-          paths: 'HelloWorldApp'
+          source-root: './'
+
+      # List CodeQL database contents to check for issues
+      - name: List CodeQL database contents
+        run: ls -la /home/runner/work/_temp/codeql_databases
 
       # Perform CodeQL Analysis
       - name: Perform CodeQL Analysis
