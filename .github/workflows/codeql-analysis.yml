@@ -38,8 +38,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}
-          source-root: ./  # Ensures all files, including the ones in specific folders, are analyzed
+          languages: dotnet
 
       # Perform CodeQL Analysis
       - name: Perform CodeQL Analysis
