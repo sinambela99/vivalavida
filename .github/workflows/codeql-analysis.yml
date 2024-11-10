@@ -17,11 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up .NET SDK
+      # Step 2: Set up .NET SDK (Fallback to version 7.0.x)
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.*'
+          dotnet-version: '7.0.*'  # Use the latest available 7.x SDK
 
       # Step 3: Restore dependencies
       - name: Restore dependencies
@@ -31,27 +31,40 @@ jobs:
       - name: Build the solution
         run: dotnet build HelloWorldApp.sln --configuration Release
 
-      # Debugging: List the files in the directory to ensure .cs files are present
+      # Step 5: List files for debugging (Optional)
+      # This step will list all files in the repository to ensure C# files are present and in the correct location
       - name: List files for debugging
         run: ls -R /home/runner/work/vivalavida/vivalavida
 
-      # Step 5: Initialize CodeQL
+      # Step 6: Initialize CodeQL database
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
+          # Optional: Provide additional configurations for database initialization
+          # If the default settings do not work, you can specify paths or arguments here
 
-      # Step 6: Run CodeQL Analysis
+      # Step 7: Run CodeQL Analysis
       - name: Run CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           output: ../results
           upload: always
           cleanup-level: brutal
-          add-snippets: false
-          skip-queries: false
-          upload-database: true
+          # This ensures the results are uploaded to GitHub security scanning
         env:
-          DOTNET_ROOT: /usr/share/dotnet
-          CODEQL_RAM: 14567
-          CODEQL_THREADS: 4
+          CODEQL_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Replace with a PAT if needed
+          CODEQL_RAM: 14567  # Allocate sufficient RAM for the analysis
+          CODEQL_THREADS: 4  # Adjust the number of threads based on your CI resources
+          CODEQL_ACTION_VERSION: 3.27.1  # Ensure the latest version of CodeQL is used
+          CODEQL_EXTRACTOR_CSHARP_THREADS: 4  # Set the number of threads for C# extraction
+          CODEQL_EXTRACTOR_CSHARP_RAM: 14567  # Set memory for C# extraction
+          CODEQL_SCRATCH_DIR: /home/runner/work/_temp/codeql_databases/working  # Define working directory for extraction
+          CODEQL_VERBOSITY: warnings  # Set verbosity level for the logs
+
+      # Optional: Upload results if needed for visibility
+      - name: Upload CodeQL Analysis Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: codeql-results
+          path: ../results
