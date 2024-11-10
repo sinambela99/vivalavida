@@ -14,10 +14,6 @@ jobs:
         language: [csharp]
 
     steps:
-      # Enable debug logging
-      - name: Enable debug logging
-        run: echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
-
       # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,38 +24,38 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      # Verify solution file exists
-      - name: Verify solution file exists
+      # List repository contents to verify the solution and project files
+      - name: List repository contents
         run: |
           ls -la
-          cat HelloWorldApp.sln
+          ls -la HelloWorldApp.sln
+          ls -la HelloWorldApp/HelloWorldApp.csproj
 
       # Restore NuGet packages for C#
       - name: Restore NuGet packages
         run: dotnet restore HelloWorldApp.sln
 
-      # Clean and build the project with CodeQL extraction
-      - name: Clean and build the project with CodeQL extraction
+      # Clean and build the solution
+      - name: Clean and build the solution
         run: |
           dotnet clean HelloWorldApp.sln
           dotnet build HelloWorldApp.sln --configuration Release --no-restore
-        env:
-          CODEQL_EXTRACTOR_CSHARP_BUILD_COMMAND: "dotnet build HelloWorldApp.sln --configuration Release"
 
-      # Publish the project to ensure all dependencies are included
+      # Publish the project to ensure dependencies are included
       - name: Publish the project
         run: dotnet publish HelloWorldApp.sln --configuration Release --output ./output
 
-      # Initialize CodeQL for the specific language
-      - name: Initialize CodeQL
+      # Initialize CodeQL for C#
+      - name: Initialize CodeQL with tracing
         uses: github/codeql-action/init@v3
         with:
           languages: csharp
-          source-root: './'
+          source-root: './'  # Adjust if your solution is in a subfolder
+          trace: true  # Enables tracing logs for debugging
 
-      # List CodeQL database contents to check for issues
-      - name: List CodeQL database contents
-        run: ls -la /home/runner/work/_temp/codeql_databases
+      # Verify CodeQL database contents
+      - name: Verify CodeQL database contents
+        run: ls -la /home/runner/work/_temp/codeql_databases/csharp
 
       # Perform CodeQL Analysis
       - name: Perform CodeQL Analysis
