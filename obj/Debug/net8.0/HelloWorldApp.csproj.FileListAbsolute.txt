@@ -1,5 +1,6 @@
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\appsettings.json
+C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\helloworldappdb\baseline-info.json
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\HelloWorldApp.exe
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\HelloWorldApp.deps.json
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\HelloWorldApp.runtimeconfig.json
@@ -121,6 +122,7 @@ C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.AssemblyInfo.cs
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.csproj.CoreCompileInputs.cache
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.sourcelink.json
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\staticwebassets\msbuild.HelloWorldApp.Microsoft.AspNetCore.StaticWebAssets.props
@@ -135,4 +137,3 @@ C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\refint\HelloWorldApp.dll
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.pdb
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.genruntimeconfig.cache
 C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\ref\HelloWorldApp.dll
-C:\Users\azureuser\HelloWorldApp\obj\Debug\net8.0\HelloWorldApp.sourcelink.json
