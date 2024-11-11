@@ -50,7 +50,7 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v1
         with:
           organization: sinambela99  # Gantilah dengan nama organisasi GitHub kamu
-          token: 5a21409fc26bcefd805b9ee653991f1a4f27f7d7  # Pastikan SONAR_TOKEN ada di Secrets GitHub
+          token: ${{ secrets.SONAR_TOKEN }} # Pastikan SONAR_TOKEN ada di Secrets GitHub
 
       # 6. Publish hasil analisis SonarCloud
       - name: Publish SonarCloud Quality Gate status
