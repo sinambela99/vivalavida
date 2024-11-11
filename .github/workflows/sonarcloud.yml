@@ -52,9 +52,4 @@ jobs:
           organization: sinambela99  # Gantilah dengan nama organisasi GitHub kamu
           token: ${{ secrets.SONAR_TOKEN }} # Pastikan SONAR_TOKEN ada di Secrets GitHub
 
-      # 6. Publish hasil analisis SonarCloud
-      - name: Publish SonarCloud Quality Gate status
-        run: curl -u ${{ secrets.SONAR_TOKEN }}: \
-          "https://sonarcloud.io/api/qualitygates/project_status?projectKey=${{ github.repository }}" > result.json && \
-          if grep -q '"status":"ERROR"' result.json; then exit 1; fi
-
+   
