@@ -1,38 +1,29 @@
 name: SonarCloud
-
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
-
 jobs:
   build:
     name: Build and analyze
     runs-on: windows-latest
     steps:
-      # Menyiapkan Java 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu' # Opsi distribusi lainnya tersedia.
-          
-      # Checkout kode
+          distribution: 'zulu' # Alternative distribution options are available.
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones dinonaktifkan untuk analisis yang lebih relevan
-          
-      # Cache paket SonarCloud
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-          
-      # Cache SonarCloud scanner
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v4
@@ -40,38 +31,18 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
-          
-      # Uninstall dotnet-coverage jika ada
-      - name: Uninstall dotnet-coverage
-        shell: powershell
-        run: |
-          # Hapus dotnet-coverage jika ada
-          if (dotnet tool uninstall --global dotnet-coverage -ErrorAction SilentlyContinue) {
-            Write-Host "dotnet-coverage uninstalled."
-          } else {
-            Write-Host "dotnet-coverage not found, skipping."
-          }
-          
-      # Install SonarCloud scanner
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          
-      # Build dan analisis menggunakan SonarCloud
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Dibutuhkan untuk mendapatkan informasi PR
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          # Memulai analisis SonarCloud
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"sinambela99_vivalavida" /o:"sinambela99" /d:sonar.token="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io"
-          
-          # Build proyek .NET
           dotnet build
-          
-          # Menyelesaikan analisis SonarCloud
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{secrets.SONAR_TOKEN}}"
