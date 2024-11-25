@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\azureuser\\HelloWorldApp\\HelloWorldApp.csproj": {}
+    "C:\\Users\\azureuser\\HelloWorld\\HelloWorldApp\\HelloWorldApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\azureuser\\HelloWorldApp\\HelloWorldApp.csproj": {
+    "C:\\Users\\azureuser\\HelloWorld\\HelloWorldApp\\HelloWorldApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\azureuser\\HelloWorldApp\\HelloWorldApp.csproj",
+        "projectUniqueName": "C:\\Users\\azureuser\\HelloWorld\\HelloWorldApp\\HelloWorldApp.csproj",
         "projectName": "HelloWorldApp",
-        "projectPath": "C:\\Users\\azureuser\\HelloWorldApp\\HelloWorldApp.csproj",
+        "projectPath": "C:\\Users\\azureuser\\HelloWorld\\HelloWorldApp\\HelloWorldApp.csproj",
         "packagesPath": "C:\\Users\\azureuser\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\azureuser\\HelloWorldApp\\obj\\",
+        "outputPath": "C:\\Users\\azureuser\\HelloWorld\\HelloWorldApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\azureuser\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,6 +43,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Mvc.RazorPages": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.10, )"
@@ -81,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
