@@ -17,3 +17,7 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Users\azureuser\HelloWorld\HelloWorld\HelloWorldApp
 build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/azureuser/HelloWorld/HelloWorld/HelloWorldApp/pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = cGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
