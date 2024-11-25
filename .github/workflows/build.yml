@@ -43,6 +43,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"sinambela99_vivalavida" /o:"sinambela99" /d:sonar.token="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scanner.scanAll=false
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"sinambela99_vivalavida" /o:"sinambela99" /d:sonar.token="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scanner.scanAll=false /d:sonar.sources="**/*.cs,**/*.html"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{secrets.SONAR_TOKEN}}"
