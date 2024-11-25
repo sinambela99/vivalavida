@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "qgCWqLSr5Snq2c+/wgDM7Z7Jij25MRUP4TCzc33/PyU=",
+  "Hash": "237Ocbg/WP2Q3vyEZNYUkl4V3Ozk0IjeJqPU3P7BS98=",
   "Source": "HelloWorldApp",
   "BasePath": "_content/HelloWorldApp",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "HelloWorldApp\\wwwroot",
       "Source": "HelloWorldApp",
-      "ContentRoot": "C:\\Users\\azureuser\\HelloWorld\\HelloWorldApp\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\azureuser\\HelloWorld\\HelloWorld\\HelloWorldApp\\wwwroot\\",
       "BasePath": "_content/HelloWorldApp",
       "Pattern": "**"
     }
