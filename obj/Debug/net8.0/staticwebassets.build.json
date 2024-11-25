@@ -1,19 +1,11 @@
 {
   "Version": 1,
-  "Hash": "237Ocbg/WP2Q3vyEZNYUkl4V3Ozk0IjeJqPU3P7BS98=",
+  "Hash": "rfnnTPW7EfX38e8TdevDGayK427sapqizGGNQWTrCvE=",
   "Source": "HelloWorldApp",
   "BasePath": "_content/HelloWorldApp",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [
-    {
-      "Name": "HelloWorldApp\\wwwroot",
-      "Source": "HelloWorldApp",
-      "ContentRoot": "C:\\Users\\azureuser\\HelloWorld\\HelloWorld\\HelloWorldApp\\wwwroot\\",
-      "BasePath": "_content/HelloWorldApp",
-      "Pattern": "**"
-    }
-  ],
+  "DiscoveryPatterns": [],
   "Assets": []
 }
