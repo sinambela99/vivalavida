@@ -1,6 +1,5 @@
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\appsettings.json
-C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\helloworldappdb\baseline-info.json
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\HelloWorldApp.exe
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\HelloWorldApp.deps.json
 C:\Users\azureuser\HelloWorldApp\bin\Debug\net8.0\HelloWorldApp.runtimeconfig.json
