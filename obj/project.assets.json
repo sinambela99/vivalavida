@@ -4491,11 +4491,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\azureuser\\HelloWorld\\HelloWorld\\HelloWorldApp\\HelloWorldApp.csproj",
+      "projectUniqueName": "C:\\Users\\azureuser\\HelloWorldApp\\HelloWorldApp.csproj",
       "projectName": "HelloWorldApp",
-      "projectPath": "C:\\Users\\azureuser\\HelloWorld\\HelloWorld\\HelloWorldApp\\HelloWorldApp.csproj",
+      "projectPath": "C:\\Users\\azureuser\\HelloWorldApp\\HelloWorldApp.csproj",
       "packagesPath": "C:\\Users\\azureuser\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\azureuser\\HelloWorld\\HelloWorld\\HelloWorldApp\\obj\\",
+      "outputPath": "C:\\Users\\azureuser\\HelloWorldApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\azureuser\\AppData\\Roaming\\NuGet\\NuGet.Config"
