@@ -45,5 +45,5 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"sinambela99_vivalavida" /o:"sinambela99" /d:sonar.token="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
-          dotnet test --collect "Code Coverage"
+          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{secrets.SONAR_TOKEN}}"
